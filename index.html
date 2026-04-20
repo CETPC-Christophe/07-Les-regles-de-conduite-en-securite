@@ -1,0 +1,2410 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Les règles de conduite en sécurité</title>
+<style>
+:root { --orange:#ff6600; --noir:#222; --gris:#f7f7f8; --ok:#2e7d32; --ko:#c62828; }
+*{box-sizing:border-box}
+html {
+  height: 100%;
+  overflow-y: auto;
+}
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: var(--gris);
+  color: var(--noir);
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+.banner { background:var(--noir); color:#fff; padding:10px; border-radius:10px; text-align:center; font-weight:700; width:100%; max-width:920px; margin-bottom:15px; }
+h1 { color:var(--orange); text-align:center; margin:8px 0; }
+.section { background:#fff; padding:18px; border-radius:12px; box-shadow:0 3px 6px rgba(0,0,0,.07); width:100%; max-width:920px; margin:10px 0; }
+input[type="text"], input[type="number"] { padding:10px 12px; border:1px solid #ccc; border-radius:8px; font-size:15px; }
+input[type="number"]{ width:140px; }
+button { background:var(--orange); color:#fff; border:none; padding:10px 16px; border-radius:8px; font-size:15px; cursor:pointer; }
+button[disabled]{ opacity:.6; cursor:not-allowed; }
+button:hover:not([disabled]){ filter:brightness(.97); }
+
+/* Focus clavier visible pour accessibilite */
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #0f62fe;
+  outline-offset: 2px;
+}
+
+.home-page { display:block; }
+.home-content { text-align:center; }
+.home-subtitle { color:var(--noir); margin-top:0; font-size:24px; }
+.field-wrap { margin: 16px 0; }
+.field-label { display:block; margin-bottom:8px; font-weight:600; }
+.candidate-input { width:100%; max-width:400px; padding:12px; font-size:16px; }
+.access-form { display:flex; flex-direction:column; align-items:center; }
+.mode-summary-wrap {
+  width: 100%;
+  max-width: 760px;
+  margin: 10px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mode-summary {
+  width: 100%;
+  margin: 0 auto;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: left;
+  line-height: 1.5;
+  font-size: 14px;
+}
+.mode-summary.revision {
+  border: 1px solid #93c5fd;
+  border-left: 5px solid #2563eb;
+  background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+}
+.mode-summary.evaluation {
+  border: 1px solid #86efac;
+  border-left: 5px solid #16a34a;
+  background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+}
+.mode-summary.kahoot {
+  border: 1px solid #fcd34d;
+  border-left: 5px solid #d97706;
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+}
+.mode-summary-title {
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 800;
+}
+.mode-summary-list {
+  margin: 0;
+  padding-left: 18px;
+}
+.mode-summary-list li {
+  margin: 4px 0;
+}
+.home-page,
+.home-content,
+.mode-summary-wrap,
+.eligibility-message {
+  touch-action: pan-y;
+}
+.access-btn { margin-top: 4px; }
+.welcome-text { margin: 8px 0 18px; font-size: 22px; font-weight: 700; color: var(--noir); }
+.home-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.home-actions button { padding: 12px 32px; font-size:16px; }
+.eligibility-message {
+  width: 100%;
+  max-width: 700px;
+  margin: 14px auto 0;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-left: 5px solid #64748b;
+  border-radius: 12px;
+  background: #f8fafc;
+  text-align: left;
+  font-weight: 600;
+  line-height: 1.45;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+.eligibility-message.ok {
+  color: #166534;
+  border-color: #bbf7d0;
+  border-left-color: #16a34a;
+  background: #f0fdf4;
+}
+.eligibility-message.err {
+  color: #991b1b;
+  border-color: #fecaca;
+  border-left-color: #dc2626;
+  background: #fef2f2;
+}
+.eligibility-message.centered {
+  text-align: center;
+}
+.training-btn { background:#3b82f6; }
+.eval-btn { background:#2f855a; }
+.kahoot-btn { background:#d97706; }
+.status-message { min-height: 24px; margin-top: 14px; font-weight: 600; }
+.ok { color: var(--ok); }
+.err { color: var(--ko); }
+[hidden] { display: none !important; }
+
+.quiz-header { display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:12px; }
+.quiz-mode { font-weight:700; color:var(--orange); }
+.quiz-progress { font-weight:600; }
+.quiz-timer { font-weight:700; color:#b45309; }
+.quiz-timer-warning { color:#b45309; }
+.quiz-timer-danger { color:#c62828; animation: pulse-timer 0.9s infinite; }
+
+@keyframes pulse-timer {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.quiz-card { border:1px solid #ddd; border-radius:10px; padding:16px; background:#fff; }
+.quiz-image { max-width:100%; max-height:280px; border-radius:8px; margin:0 auto 16px; display:block; object-fit:contain; }
+.quiz-question { font-size:20px; font-weight:700; margin:0 0 24px; text-align:center; }
+.quiz-question,
+.quiz-card {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.quiz-options { display:flex; flex-direction:column; gap:18px; margin: 14px 0 18px; justify-content:center; align-items:center; }
+.quiz-option {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:600;
+  min-width: 240px;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+}
+.quiz-option[for="answerTrue"] {
+  background: #ecfdf3;
+  border-color: #86efac;
+}
+.quiz-option[for="answerFalse"] {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+.quiz-option[for="answerUnknown"] {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+.quiz-option input[type="radio"] {
+  transform: scale(1.15);
+}
+.quiz-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; justify-content:center; }
+.secondary-btn { background:#4b5563; }
+.quiz-error { min-height:24px; font-weight:600; color:var(--ko); text-align:center; }
+.result-box { text-align:center; }
+.result-score { font-size:24px; font-weight:800; margin:8px 0; }
+.result-send-status { min-height:24px; font-weight:600; margin-top:8px; }
+.kahoot-board {
+  margin: 16px auto 0;
+  width: 100%;
+  max-width: 720px;
+  text-align: center;
+  border: 1px solid #fde68a;
+  border-left: 5px solid #d97706;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff7ed 0%, #fffbeb 100%);
+  padding: 14px;
+}
+.kahoot-board h3 {
+  margin: 0 0 8px;
+  color: #9a3412;
+}
+.kahoot-board ol {
+  margin: 0 auto;
+  padding-left: 0;
+  list-style-position: inside;
+}
+.kahoot-board li {
+  margin: 4px 0;
+}
+
+@media (max-width: 768px) {
+  body {
+    display: block;
+    padding: 12px;
+  }
+
+  .banner,
+  .section {
+    width: 100%;
+    max-width: none;
+  }
+
+  .section {
+    margin: 8px 0;
+    padding: 14px;
+  }
+
+  .mode-summary-wrap {
+    gap: 8px;
+  }
+
+  .quiz-options {
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .quiz-option {
+    width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="bannerTitle" class="banner">Conduite en sécurité</div>
+
+<!-- PAGE 1: ACCUEIL -->
+<div id="page-accueil" class="section home-page">
+  <h1 id="presentation-title">nom du qcm</h1>
+  <div class="home-content">
+    <div id="access-step">
+      <form id="access-form" class="access-form">
+        <div class="field-wrap">
+          <label class="field-label" for="candidate">Taper votre nom pour commencer</label>
+          <input type="text" id="candidate" class="candidate-input" placeholder="Nom de l'eleve" autocomplete="off" />
+        </div>
+
+        <button id="accessBtn" class="access-btn" type="submit">Continuer</button>
+
+        <div id="message" class="status-message" aria-live="polite"></div>
+      </form>
+    </div>
+
+    <div id="welcome-step" hidden>
+      <div id="welcomeMessage" class="welcome-text"></div>
+
+      <div class="home-actions">
+        <button id="trainingBtn" class="training-btn" type="button">Révision</button>
+        <button id="evalBtn" class="eval-btn" type="button" disabled>Évaluation</button>
+        <button id="kahootBtn" class="kahoot-btn" type="button">TurboQuiz</button>
+      </div>
+
+      <div id="eligibilityMessage" class="eligibility-message" aria-live="polite"></div>
+
+      <div class="mode-summary-wrap">
+        <div id="revisionSummary" class="mode-summary revision" aria-live="polite"></div>
+        <div id="evaluationSummary" class="mode-summary evaluation" aria-live="polite"></div>
+        <div id="kahootSummary" class="mode-summary kahoot" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2: QUIZ -->
+<div id="page-quiz" class="section" hidden>
+  <div class="quiz-header">
+    <div id="quizModeLabel" class="quiz-mode"></div>
+    <div id="quizProgress" class="quiz-progress"></div>
+    <div id="quizTimer" class="quiz-timer" hidden></div>
+  </div>
+
+  <div class="quiz-card">
+    <img id="quizImage" class="quiz-image" alt="Illustration de la question" hidden />
+    <p id="quizQuestion" class="quiz-question"></p>
+
+    <form id="quizForm">
+      <div class="quiz-options" role="radiogroup" aria-label="Reponse Vrai ou Faux">
+        <label class="quiz-option" for="answerTrue">
+          <input id="answerTrue" type="radio" name="quizAnswer" value="true" />
+          VRAI
+        </label>
+
+        <label class="quiz-option" for="answerFalse">
+          <input id="answerFalse" type="radio" name="quizAnswer" value="false" />
+          FAUX
+        </label>
+
+        <label class="quiz-option" for="answerUnknown">
+          <input id="answerUnknown" type="radio" name="quizAnswer" value="unknown" />
+          Je ne sais pas
+        </label>
+      </div>
+
+      <div id="quizError" class="quiz-error" aria-live="polite"></div>
+
+      <div class="quiz-actions">
+        <button id="nextQuestionBtn" type="submit">Valider et continuer</button>
+        <button id="quitQuizBtn" class="secondary-btn" type="button">Quitter le quiz</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- PAGE 3: RESULTAT -->
+<div id="page-resultat" class="section" hidden>
+  <div class="result-box">
+    <h1>Résultat</h1>
+    <p id="resultMode"></p>
+    <p id="resultScore" class="result-score"></p>
+    <p id="resultDetails"></p>
+    <p id="resultSendStatus" class="result-send-status" aria-live="polite"></p>
+    <div id="kahootBoard" class="kahoot-board" hidden></div>
+    <div class="quiz-actions" style="justify-content:center;">
+      <button id="restartQuizBtn" type="button">Revenir à l'accueil</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// A MODIFIER: CONFIGURATION DU QCM (seule zone a adapter)
+// ============================================================
+// PROCEDURE STANDARD - MISE A JOUR D'UN NOUVEAU QCM
+// 1) Changer le titre dans la balise HTML <title> (en haut du fichier).
+// 2) Changer identity.documentTitle dans QCM_CONFIG.
+// 3) Changer identity.bannerTitle si necessaire.
+// 4) Effacer totalement les themes actuels, puis coller les nouveaux themes.
+// 5) Effacer totalement les questions actuelles, puis coller les nouvelles questions.
+//
+// FORMAT A RESPECTER POUR LES THEMES:
+// themes: [
+//   { id: 1, key: "theme_01", label: "Nom du theme 1" },
+//   ...
+//   { id: 20, key: "theme_20", label: "Nom du theme 20" }
+// ]
+//
+// FORMAT A RESPECTER POUR LES QUESTIONS:
+// questions: [
+//   { id: 1, themeId: 1, text: "Question", answer: true },
+//   { id: 2, themeId: 1, text: "Question", answer: false, image: "photos/photo.jpg" },
+//   ...
+// ]
+// Le champ image est optionnel. Chemin relatif au fichier HTML ou URL absolue.
+//
+// CONTROLES AVANT VALIDATION:
+// - id des themes: 1 a 20 sans doublon
+// - key des themes: theme_01 a theme_20
+// - id des questions: uniques
+// - themeId de chaque question: existant dans themes
+// - answer: true ou false (booleen, sans guillemets)
+// - totalQuestions doit rester egal au nombre de themes
+//
+// Resume des conditions (information):
+// - Mode Revision: acces direct apres autorisation du nom.
+// - Mode Evaluation: accessible apres 3 revisions reussies minimum,
+//   avec une note minimale de 16/20 a chaque revision comptabilisee.
+// - Bareme: 1 question par theme, 1 point par bonne reponse.
+// - Revision: temps illimite par question.
+// - Evaluation: 20 secondes par question.
+// - Notation:
+//   +1 point pour une bonne reponse,
+//   -1 point pour une mauvaise reponse,
+//   0 point pour "Je ne sais pas".
+const QCM_CONFIG = {
+  // Nom du QCM (onglet navigateur) + bandeau noir en haut.
+  identity: {
+    documentTitle: "Les règles de conduite en sécurité",
+    bannerTitle: "Conduite en sécurité"
+  },
+  // Connexions Google Apps Script + noms d'onglets Google Sheets.
+  appScript: {
+    authorizationsDeploymentId: "AKfycbw1iv8O6bMA-quRslDLdaO2kRORM-kiI8dxhHHJgaq09L5hndZ3iIEcWjrK6-6tSrHnLw",
+    resultsWebAppUrl: "https://script.google.com/macros/s/AKfycbw7pNoNDCCP0cPI2qficZOQanfbGdrgUEm1oMBYmokeq7dDiX0FWdaFXFZwI6gJZRH1Ag/exec",
+    authorizationsSheetName: "autorisations"
+  },
+  // Source externe de la banque de questions.
+  // URL Apps Script / Google Sheet exposant la banque de questions.
+  questionsSource: {
+    enabled: true,
+    url: "https://script.google.com/macros/s/AKfycbw7pNoNDCCP0cPI2qficZOQanfbGdrgUEm1oMBYmokeq7dDiX0FWdaFXFZwI6gJZRH1Ag/exec",
+    format: "json",
+    fallbackToEmbeddedQuestions: false
+  },
+  // Regles pedagogiques et seuils d'acces a l'evaluation.
+  rules: {
+    requiredRevisionSuccess: 3,
+    minRevisionScore: 16,
+    totalQuestions: 20
+  },
+  // Liste des themes (1 theme = 1 question tiree par session).
+  themes: [
+    { id: 1, key: "theme_01", label: "La prise de poste 1" },
+    { id: 2, key: "theme_02", label: "La prise de poste 2" },
+    { id: 3, key: "theme_03", label: "La prise de poste 3" },
+    { id: 4, key: "theme_04", label: "EPI - Protection 1" },
+    { id: 5, key: "theme_05", label: "EPI - Protection 2" },
+    { id: 6, key: "theme_06", label: "EPI - Protection 3" },
+    { id: 7, key: "theme_07", label: "EPI - Obligation 1" },
+    { id: 8, key: "theme_08", label: "EPI - Obligation 2" },
+    { id: 9, key: "theme_09", label: "EPI - Obligation 3" },
+    { id: 10, key: "theme_10", label: "Les vérifications journalières 1" },
+    { id: 11, key: "theme_11", label: "Les vérifications journalières 2" },
+    { id: 12, key: "theme_12", label: "Les vérifications journalières 3" },
+    { id: 13, key: "theme_13", label: "L'installation au poste de conduite 1" },
+    { id: 14, key: "theme_14", label: "L'installation au poste de conduite 2" },
+    { id: 15, key: "theme_15", label: "Le démarrage 1" },
+    { id: 16, key: "theme_16", label: "Le démarrage 2" },
+    { id: 17, key: "theme_17", label: "Les essais 1" },
+    { id: 18, key: "theme_18", label: "Les essais 2" },
+    { id: 19, key: "theme_19", label: "Les vérifications générales périodiques" },
+    { id: 20, key: "theme_20", label: "Les vérifications générales périodiques" }
+  ],
+  // Les questions sont chargees depuis Google Sheets.
+  // Ne laissez pas de base embarquee ici si vous voulez eviter l'exposition des reponses.
+  questions: []
+
+};
+
+if (QCM_CONFIG.identity && QCM_CONFIG.identity.documentTitle) {
+  document.title = QCM_CONFIG.identity.documentTitle;
+}
+
+const SETTINGS = {
+  bannerTitle: QCM_CONFIG.identity.bannerTitle,
+  appScript: QCM_CONFIG.appScript,
+  questionsSource: QCM_CONFIG.questionsSource || {},
+  rules: QCM_CONFIG.rules
+};
+
+let THEMES = Array.isArray(QCM_CONFIG.themes) ? [...QCM_CONFIG.themes] : [];
+const EMBEDDED_QUESTION_BANK_RAW = Array.isArray(QCM_CONFIG.questions) ? [...QCM_CONFIG.questions] : [];
+let QUESTION_BANK_RAW = [...EMBEDDED_QUESTION_BANK_RAW];
+const CONFIGURED_TOTAL_QUESTIONS = SETTINGS.rules.totalQuestions;
+const HAS_CONFIGURED_TOTAL_QUESTIONS = Number.isInteger(CONFIGURED_TOTAL_QUESTIONS) && CONFIGURED_TOTAL_QUESTIONS > 0;
+const TOTAL_QUESTIONS = HAS_CONFIGURED_TOTAL_QUESTIONS ? CONFIGURED_TOTAL_QUESTIONS : THEMES.length;
+
+const RESULT_SHEET_NAMES = {
+  revision: `R- ${document.title}`,
+  evaluation: `E- ${document.title}`,
+  kahoot: `TQ- ${document.title}`
+};
+
+// ============================================================
+// NE PAS TOUCHER (moteur du QCM)
+// Modifier uniquement QCM_CONFIG ci-dessus
+// ============================================================
+
+const bannerTitle = document.getElementById("bannerTitle");
+const presentationTitle = document.getElementById("presentation-title");
+const pageAccueil = document.getElementById("page-accueil");
+const pageQuiz = document.getElementById("page-quiz");
+const pageResultat = document.getElementById("page-resultat");
+const accessForm = document.getElementById("access-form");
+const accessStep = document.getElementById("access-step");
+const welcomeStep = document.getElementById("welcome-step");
+const welcomeMessage = document.getElementById("welcomeMessage");
+const eligibilityMessage = document.getElementById("eligibilityMessage");
+const inputNom = document.getElementById("candidate");
+const revisionSummary = document.getElementById("revisionSummary");
+const evaluationSummary = document.getElementById("evaluationSummary");
+const kahootSummary = document.getElementById("kahootSummary");
+const accessBtn = document.getElementById("accessBtn");
+const trainingBtn = document.getElementById("trainingBtn");
+const evalBtn = document.getElementById("evalBtn");
+const kahootBtn = document.getElementById("kahootBtn");
+const message = document.getElementById("message");
+const quizModeLabel = document.getElementById("quizModeLabel");
+const quizProgress = document.getElementById("quizProgress");
+const quizTimer = document.getElementById("quizTimer");
+const quizQuestion = document.getElementById("quizQuestion");
+const quizImage = document.getElementById("quizImage");
+const quizForm = document.getElementById("quizForm");
+const answerTrue = document.getElementById("answerTrue");
+const answerFalse = document.getElementById("answerFalse");
+const answerUnknown = document.getElementById("answerUnknown");
+const quizError = document.getElementById("quizError");
+const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+const quitQuizBtn = document.getElementById("quitQuizBtn");
+const resultMode = document.getElementById("resultMode");
+const resultScore = document.getElementById("resultScore");
+const resultDetails = document.getElementById("resultDetails");
+const resultSendStatus = document.getElementById("resultSendStatus");
+const kahootBoard = document.getElementById("kahootBoard");
+const restartQuizBtn = document.getElementById("restartQuizBtn");
+
+const AUTH_DEPLOYMENT_ID = SETTINGS.appScript.authorizationsDeploymentId;
+const AUTH_WEB_APP_URL = `https://script.google.com/macros/s/${AUTH_DEPLOYMENT_ID}/exec`;
+const RESULTS_WEB_APP_URL = SETTINGS.appScript.resultsWebAppUrl;
+const REQUIRED_REVISION_SUCCESS = SETTINGS.rules.requiredRevisionSuccess;
+const MIN_REVISION_SCORE = SETTINGS.rules.minRevisionScore;
+const EVALUATION_TIMER_SECONDS = 20;
+const KAHOOT_TIMER_SECONDS = 15;
+
+let QUESTION_BANK = QUESTION_BANK_RAW.map((question) => ({
+  ...question,
+  themeId: question.themeId
+}));
+
+let evaluationAuthorized = false;
+let evaluationClickLock = false;
+let evaluationCheckInProgress = false;
+let connexionEnCours = false;
+let applicationReady = false;
+let questionsChargeesPourQcm = "";
+
+let quizState = {
+  mode: "",
+  questions: [],
+  index: 0,
+  score: 0,
+  reponsesDetaillees: [],
+  startedAtMs: 0,
+  finishedAtMs: 0,
+  resultSendAttempted: false,
+  questionTimerId: null,
+  questionDeadlineMs: 0,
+  questionResolved: false,
+  feedbackTimeoutId: null
+};
+
+function assignerBanqueQuestions(questions) {
+  QUESTION_BANK_RAW = Array.isArray(questions) ? [...questions] : [];
+  QUESTION_BANK = QUESTION_BANK_RAW.map((question) => ({
+    ...question,
+    themeId: question.themeId
+  }));
+}
+
+function assignerThemes(themes) {
+  THEMES = Array.isArray(themes) ? [...themes] : [];
+}
+
+function nettoyerValeurTexte(value) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function convertirEnBooleen(value) {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  const normalisee = nettoyerValeurTexte(String(value)).toLowerCase();
+
+  if (["true", "vrai", "1", "oui", "yes"].includes(normalisee)) {
+    return true;
+  }
+
+  if (["false", "faux", "0", "non", "no"].includes(normalisee)) {
+    return false;
+  }
+
+  return null;
+}
+
+function parserTexteDelimite(texte, separateur) {
+  const lignes = [];
+  let ligne = [];
+  let cellule = "";
+  let dansGuillemets = false;
+
+  for (let index = 0; index < texte.length; index += 1) {
+    const caractere = texte[index];
+    const suivant = texte[index + 1];
+
+    if (caractere === "\"") {
+      if (dansGuillemets && suivant === "\"") {
+        cellule += "\"";
+        index += 1;
+      } else {
+        dansGuillemets = !dansGuillemets;
+      }
+      continue;
+    }
+
+    if (!dansGuillemets && caractere === separateur) {
+      ligne.push(cellule);
+      cellule = "";
+      continue;
+    }
+
+    if (!dansGuillemets && (caractere === "\n" || caractere === "\r")) {
+      if (caractere === "\r" && suivant === "\n") {
+        index += 1;
+      }
+      ligne.push(cellule);
+      lignes.push(ligne);
+      ligne = [];
+      cellule = "";
+      continue;
+    }
+
+    cellule += caractere;
+  }
+
+  if (cellule.length > 0 || ligne.length > 0) {
+    ligne.push(cellule);
+    lignes.push(ligne);
+  }
+
+  if (lignes.length === 0) {
+    return [];
+  }
+
+  const entetes = lignes[0].map((celluleEntete) => nettoyerValeurTexte(celluleEntete));
+
+  return lignes
+    .slice(1)
+    .filter((valeurs) => valeurs.some((valeur) => nettoyerValeurTexte(valeur) !== ""))
+    .map((valeurs) => {
+      const entree = {};
+
+      entetes.forEach((entete, position) => {
+        entree[entete] = valeurs[position] ?? "";
+      });
+
+      return entree;
+    });
+}
+
+function determinerSeparateur(texte, format) {
+  if (format === "tsv") {
+    return "\t";
+  }
+
+  const premiereLigne = (texte.split(/\r?\n/, 1)[0] || "");
+
+  if (premiereLigne.includes(";")) {
+    return ";";
+  }
+
+  if (premiereLigne.includes(",")) {
+    return ",";
+  }
+
+  return "\t";
+}
+
+function normaliserQuestionExterne(ligne, position) {
+  const activeBrut = ligne.active ?? ligne.enabled ?? ligne.visible ?? "true";
+  const estActive = convertirEnBooleen(activeBrut);
+
+  if (estActive === false) {
+    return null;
+  }
+
+  const id = Number.parseInt(ligne.id ?? ligne.question_id ?? position + 1, 10);
+  const themeId = Number.parseInt(ligne.theme_id ?? ligne.themeId, 10);
+  const text = nettoyerValeurTexte(ligne.question_text ?? ligne.text ?? ligne.question ?? "");
+  const image = nettoyerValeurTexte(ligne.image_url ?? ligne.image ?? "");
+
+  return {
+    id,
+    themeId,
+    text,
+    ...(image ? { image } : {})
+  };
+}
+
+function genererQuestionsDepuisSourceExterne(donnees) {
+  if (!Array.isArray(donnees)) {
+    throw new Error("Le format externe doit etre un tableau d'objets.");
+  }
+
+  return donnees
+    .map((ligne, position) => normaliserQuestionExterne(ligne || {}, position))
+    .filter(Boolean);
+}
+
+function normaliserThemeExterne(ligne) {
+  const id = Number.parseInt(ligne.id ?? ligne.theme_id ?? ligne.themeId, 10);
+  const label = nettoyerValeurTexte(ligne.label ?? ligne.theme_label ?? ligne.themeLabel ?? "");
+  const key = nettoyerValeurTexte(ligne.key ?? "");
+
+  return {
+    id,
+    key: key || `theme_${String(id).padStart(2, "0")}`,
+    label
+  };
+}
+
+function genererThemesDepuisQuestions(donnees) {
+  const themesParId = new Map();
+
+  donnees.forEach((ligne) => {
+    const theme = normaliserThemeExterne(ligne || {});
+
+    if (!Number.isInteger(theme.id) || !theme.label) {
+      return;
+    }
+
+    if (!themesParId.has(theme.id)) {
+      themesParId.set(theme.id, theme);
+    }
+  });
+
+  return Array.from(themesParId.values()).sort((a, b) => a.id - b.id);
+}
+
+async function chargerQuestionsExternes() {
+  const source = SETTINGS.questionsSource || {};
+
+  if (!source.enabled) {
+    return {
+      themes: [...QCM_CONFIG.themes],
+      questions: [...EMBEDDED_QUESTION_BANK_RAW],
+      origine: "embarquee"
+    };
+  }
+
+  if (typeof source.url !== "string" || !source.url.trim()) {
+    throw new Error("questionsSource.url est vide.");
+  }
+
+  const url = new URL(source.url, window.location.href);
+  url.searchParams.set("qcm", document.title);
+
+  const response = await fetch(url.toString(), {
+    method: "GET",
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error(`Chargement HTTP impossible (${response.status}).`);
+  }
+
+  const format = nettoyerValeurTexte(source.format || "").toLowerCase();
+  let donnees;
+
+  if (format === "json") {
+    donnees = await response.json();
+  } else {
+    const texte = await response.text();
+    const separateur = determinerSeparateur(texte, format);
+    donnees = parserTexteDelimite(texte, separateur);
+  }
+
+  const reponseObjet = donnees && !Array.isArray(donnees) ? donnees : null;
+  if (reponseObjet && reponseObjet.error === true) {
+    throw new Error(reponseObjet.message || "Le script Google a retourne une erreur.");
+  }
+  const sourceQuestions = reponseObjet ? reponseObjet.questions : donnees;
+  const sourceThemes = reponseObjet ? reponseObjet.themes : null;
+  const questions = genererQuestionsDepuisSourceExterne(sourceQuestions);
+  const themes = Array.isArray(sourceThemes) && sourceThemes.length > 0
+    ? sourceThemes.map((ligne) => normaliserThemeExterne(ligne || {})).filter((theme) => Number.isInteger(theme.id) && theme.label)
+    : genererThemesDepuisQuestions(sourceQuestions);
+
+  if (questions.length === 0) {
+    throw new Error("Aucune question exploitable n'a ete trouvee dans la source externe.");
+  }
+
+  if (themes.length === 0) {
+    throw new Error("Aucun theme exploitable n'a ete trouve dans la source externe.");
+  }
+
+  return { themes, questions, origine: url.toString() };
+}
+
+async function initialiserBaseQuestions() {
+  setMessage("Chargement de la base de questions...", "");
+  setEligibilityMessage("Initialisation du QCM en cours...", "");
+
+  try {
+    const resultat = await chargerQuestionsExternes();
+    assignerThemes(resultat.themes);
+    assignerBanqueQuestions(resultat.questions);
+    questionsChargeesPourQcm = document.title;
+    console.info("Banque de questions chargee depuis:", resultat.origine);
+  } catch (error) {
+    const source = SETTINGS.questionsSource || {};
+
+    if (source.fallbackToEmbeddedQuestions && EMBEDDED_QUESTION_BANK_RAW.length > 0) {
+      assignerThemes(QCM_CONFIG.themes);
+      assignerBanqueQuestions(EMBEDDED_QUESTION_BANK_RAW);
+      questionsChargeesPourQcm = document.title;
+      console.warn("Source externe indisponible, utilisation de la base embarquee.", error);
+      setMessage("Source externe indisponible: base locale utilisee.", "err");
+      return;
+    }
+
+    throw error;
+  }
+}
+
+function validerConfigurationQcm() {
+  const erreurs = [];
+  const sourceQuestionsExterneActive = SETTINGS.questionsSource && SETTINGS.questionsSource.enabled === true;
+  const baseQuestionsChargee = Array.isArray(QUESTION_BANK_RAW) && QUESTION_BANK_RAW.length > 0;
+  const validerDonneesQcm = !sourceQuestionsExterneActive || baseQuestionsChargee;
+
+  if (!QCM_CONFIG.identity || typeof QCM_CONFIG.identity.documentTitle !== "string" || !QCM_CONFIG.identity.documentTitle.trim()) {
+    erreurs.push("identity.documentTitle est obligatoire.");
+  }
+
+  if (!QCM_CONFIG.identity || typeof QCM_CONFIG.identity.bannerTitle !== "string" || !QCM_CONFIG.identity.bannerTitle.trim()) {
+    erreurs.push("identity.bannerTitle est obligatoire.");
+  }
+
+  if (!SETTINGS.appScript || typeof SETTINGS.appScript.authorizationsDeploymentId !== "string" || !SETTINGS.appScript.authorizationsDeploymentId.trim()) {
+    erreurs.push("appScript.authorizationsDeploymentId est obligatoire.");
+  }
+
+  if (!SETTINGS.appScript || typeof SETTINGS.appScript.resultsWebAppUrl !== "string" || !/^https:\/\//.test(SETTINGS.appScript.resultsWebAppUrl)) {
+    erreurs.push("appScript.resultsWebAppUrl doit etre une URL https valide.");
+  }
+
+  if (!SETTINGS.appScript || typeof SETTINGS.appScript.authorizationsSheetName !== "string" || !SETTINGS.appScript.authorizationsSheetName.trim()) {
+    erreurs.push("appScript.authorizationsSheetName est obligatoire.");
+  }
+
+  if (!Number.isInteger(REQUIRED_REVISION_SUCCESS) || REQUIRED_REVISION_SUCCESS < 0) {
+    erreurs.push("rules.requiredRevisionSuccess doit etre un entier superieur ou egal a 0.");
+  }
+
+  if (!Number.isInteger(MIN_REVISION_SCORE) || MIN_REVISION_SCORE < 0) {
+    erreurs.push("rules.minRevisionScore doit etre un entier superieur ou egal a 0.");
+  }
+
+  if (validerDonneesQcm && (!Array.isArray(THEMES) || THEMES.length === 0)) {
+    erreurs.push("themes doit contenir au moins un theme.");
+  }
+
+  if (validerDonneesQcm && (!Array.isArray(QUESTION_BANK_RAW) || QUESTION_BANK_RAW.length === 0)) {
+    erreurs.push("questions doit contenir au moins une question.");
+  }
+
+  if (validerDonneesQcm && HAS_CONFIGURED_TOTAL_QUESTIONS && CONFIGURED_TOTAL_QUESTIONS !== THEMES.length) {
+    erreurs.push(`rules.totalQuestions (${CONFIGURED_TOTAL_QUESTIONS}) doit etre egal au nombre de themes (${THEMES.length}).`);
+  }
+
+  if (MIN_REVISION_SCORE > TOTAL_QUESTIONS) {
+    erreurs.push(`rules.minRevisionScore (${MIN_REVISION_SCORE}) ne peut pas depasser totalQuestions (${TOTAL_QUESTIONS}).`);
+  }
+
+  if (!validerDonneesQcm) {
+    return [...new Set(erreurs)];
+  }
+
+  const themeIds = new Set();
+  const themeKeys = new Set();
+
+  for (const theme of THEMES) {
+    if (!theme || !Number.isInteger(theme.id)) {
+      erreurs.push("Chaque theme doit avoir un id numerique entier.");
+      continue;
+    }
+
+    if (themeIds.has(theme.id)) {
+      erreurs.push(`Theme en doublon: id ${theme.id}.`);
+    }
+
+    themeIds.add(theme.id);
+
+    if (typeof theme.key !== "string" || !theme.key.trim()) {
+      erreurs.push(`Le theme ${theme.id} doit avoir une cle non vide.`);
+    } else if (themeKeys.has(theme.key)) {
+      erreurs.push(`Theme en doublon: key ${theme.key}.`);
+    } else {
+      themeKeys.add(theme.key);
+    }
+  }
+
+  const questionIds = new Set();
+  const questionCountByTheme = new Map();
+
+  for (const question of QUESTION_BANK_RAW) {
+    if (!question || !Number.isInteger(question.id)) {
+      erreurs.push("Chaque question doit avoir un id numerique entier.");
+      continue;
+    }
+
+    if (questionIds.has(question.id)) {
+      erreurs.push(`Question en doublon: id ${question.id}.`);
+    }
+
+    questionIds.add(question.id);
+
+    if (!themeIds.has(question.themeId)) {
+      erreurs.push(`La question ${question.id} reference un themeId inconnu (${question.themeId}).`);
+    } else {
+      questionCountByTheme.set(question.themeId, (questionCountByTheme.get(question.themeId) || 0) + 1);
+    }
+
+    if (typeof question.text !== "string" || !question.text.trim()) {
+      erreurs.push(`La question ${question.id} doit avoir un texte non vide.`);
+    }
+
+  }
+
+  for (const theme of THEMES) {
+    if (!questionCountByTheme.has(theme.id)) {
+      erreurs.push(`Aucune question affectee au theme ${theme.id}.`);
+    }
+  }
+
+  return [...new Set(erreurs)];
+}
+
+function bloquerInterfacePourConfigurationInvalide(erreurs) {
+  const details = erreurs.join(" ");
+
+  inputNom.disabled = true;
+  accessBtn.disabled = true;
+  trainingBtn.disabled = true;
+  evalBtn.disabled = true;
+  kahootBtn.disabled = true;
+  setMessage("Configuration invalide du QCM. Corrigez QCM_CONFIG avant utilisation.", "err");
+  setEligibilityMessage(details, "err");
+  console.error("Configuration QCM invalide:", erreurs);
+}
+
+if (bannerTitle) {
+  bannerTitle.textContent = SETTINGS.bannerTitle;
+}
+
+if (presentationTitle) {
+  presentationTitle.textContent = document.title;
+}
+
+if (revisionSummary) {
+  revisionSummary.innerHTML = `
+    <p class="mode-summary-title">QCM Révision</p>
+    <ul class="mode-summary-list">
+      <li>Accès : accessible en cliquant sur le bouton.</li>
+      <li>Barème : ${TOTAL_QUESTIONS} questions de 1 point.</li>
+      <li>Temps : illimité par question.</li>
+      <li>Notation : +1 point pour une bonne réponse ; -1 point pour une mauvaise réponse ; 0 point pour "Je ne sais pas".</li>
+    </ul>
+  `;
+}
+
+if (evaluationSummary) {
+  evaluationSummary.innerHTML = `
+    <p class="mode-summary-title">QCM Évaluation</p>
+    <ul class="mode-summary-list">
+      <li>Accès : accessible après ${REQUIRED_REVISION_SUCCESS} révisions réussies minimum avec au moins ${MIN_REVISION_SCORE}/${TOTAL_QUESTIONS} à chaque révision comptabilisée.</li>
+      <li>Barème : ${TOTAL_QUESTIONS} questions de 1 point.</li>
+      <li>Temps : limité à ${EVALUATION_TIMER_SECONDS} secondes par question.</li>
+      <li>Notation : +1 point pour une bonne réponse ; -1 point pour une mauvaise réponse ; 0 point pour "Je ne sais pas".</li>
+    </ul>
+  `;
+}
+
+if (kahootSummary) {
+  kahootSummary.innerHTML = `
+    <p class="mode-summary-title">TurboQuiz</p>
+    <ul class="mode-summary-list">
+      <li>Accès : accessible en cliquant sur le bouton.</li>
+      <li>Temps : ${KAHOOT_TIMER_SECONDS} secondes par question.</li>
+      <li>Classement TOP 10.</li>
+      <li>de 0 à 1000 points selon le temps restant pour une bonne réponse ;</li>
+      <li>-500 points pour une mauvaise réponse ;</li>
+      <li>0 point pour "Je ne sais pas".</li>
+    </ul>
+  `;
+}
+
+// Uniformise le nom pour fiabiliser les comparaisons (majuscules, espaces, accents).
+function normaliserNom(nom) {
+  return nom
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toUpperCase();
+}
+
+// Affiche un message d'etat dans la zone d'acces (ok/err/neutre).
+function setMessage(texte, type) {
+  message.textContent = texte;
+  message.className = `status-message ${type}`.trim();
+}
+
+// Affiche le message lie a l'eligibilite du mode evaluation.
+function setEligibilityMessage(texte, type) {
+  eligibilityMessage.textContent = texte;
+  const isInfoAccessMessage = texte === "La vérification de l'accès à l'évaluation se fait au clic sur le bouton Évaluation.";
+  const isSuccessEvaluationMessage = texte === "Vous pouvez commencer l'évaluation en cliquant sur le bouton Évaluation.";
+  const isLockedEvaluationMessage = texte.startsWith("Le QCM d'évaluation sera disponible après");
+  const isCheckingEvaluationMessage = texte.startsWith("Vérification de l'accès au QCM d'évaluation en cours");
+  const needsCenteredLayout = isInfoAccessMessage || isSuccessEvaluationMessage || isLockedEvaluationMessage || isCheckingEvaluationMessage;
+  const centeredClass = needsCenteredLayout ? "centered" : "";
+  eligibilityMessage.className = `eligibility-message ${type} ${centeredClass}`.trim();
+  eligibilityMessage.hidden = !texte;
+}
+
+// Active/desactive les boutons d'entree pendant les appels reseau.
+function setButtonsDisabled(disabled) {
+  accessBtn.disabled = disabled;
+  trainingBtn.disabled = disabled;
+  kahootBtn.disabled = disabled;
+  if (disabled) {
+    evalBtn.disabled = true;
+  }
+}
+
+// Autorise ou bloque l'acces au bouton Evaluation.
+function setEvaluationEnabled(enabled) {
+  evalBtn.disabled = !enabled;
+}
+
+// Melange un tableau avec Fisher-Yates pour un ordre aleatoire.
+function melangerTableau(items) {
+  const clone = [...items];
+
+  for (let i = clone.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [clone[i], clone[j]] = [clone[j], clone[i]];
+  }
+
+  return clone;
+}
+
+// Bascule entre les 3 ecrans: accueil, quiz et resultat.
+function afficherPage(page) {
+  pageAccueil.hidden = page !== "accueil";
+  pageQuiz.hidden = page !== "quiz";
+  pageResultat.hidden = page !== "resultat";
+}
+
+// Arrete le timer de question en cours s'il existe.
+function arreterTimerQuestion() {
+  if (quizState.questionTimerId) {
+    clearInterval(quizState.questionTimerId);
+    quizState.questionTimerId = null;
+  }
+}
+
+// Arrete un eventuel delai de feedback Kahoot entre deux questions.
+function arreterFeedbackKahoot() {
+  if (quizState.feedbackTimeoutId) {
+    clearTimeout(quizState.feedbackTimeoutId);
+    quizState.feedbackTimeoutId = null;
+  }
+}
+
+// Met a jour l'affichage du compte a rebours sur le quiz.
+function afficherTimerQuestion(secondesRestantes) {
+  if (!quizTimer) {
+    return;
+  }
+
+  if (quizState.mode !== "evaluation" && quizState.mode !== "kahoot") {
+    quizTimer.hidden = true;
+    quizTimer.textContent = "";
+    quizTimer.className = "quiz-timer";
+    return;
+  }
+
+  quizTimer.hidden = false;
+  const modeLabel = quizState.mode === "kahoot" ? "TurboQuiz" : "Temps restant";
+  quizTimer.textContent = `${modeLabel}: ${secondesRestantes} s`;
+
+  if (secondesRestantes <= 5) {
+    quizTimer.className = "quiz-timer quiz-timer-danger";
+    return;
+  }
+
+  if (secondesRestantes <= 10) {
+    quizTimer.className = "quiz-timer quiz-timer-warning";
+    return;
+  }
+
+  quizTimer.className = "quiz-timer";
+}
+
+// Lance un timer de 15 secondes en mode evaluation.
+function demarrerTimerQuestion() {
+  arreterTimerQuestion();
+
+  if (quizState.mode !== "evaluation" && quizState.mode !== "kahoot") {
+    afficherTimerQuestion(0);
+    return;
+  }
+
+  const timerSeconds = quizState.mode === "kahoot" ? KAHOOT_TIMER_SECONDS : EVALUATION_TIMER_SECONDS;
+  quizState.questionDeadlineMs = Date.now() + (timerSeconds * 1000);
+  afficherTimerQuestion(timerSeconds);
+
+  quizState.questionTimerId = setInterval(() => {
+    const msRestantes = quizState.questionDeadlineMs - Date.now();
+    const secondesRestantes = Math.max(0, Math.ceil(msRestantes / 1000));
+    afficherTimerQuestion(secondesRestantes);
+
+    if (msRestantes <= 0) {
+      arreterTimerQuestion();
+      validerQuestion(true);
+    }
+  }, 200);
+}
+
+// Ajoute des protections UI pour limiter la copie des questions pendant le quiz.
+function activerProtectionContenuQuiz() {
+  pageQuiz.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+  });
+
+  pageQuiz.addEventListener("copy", (event) => {
+    event.preventDefault();
+  });
+
+  pageQuiz.addEventListener("cut", (event) => {
+    event.preventDefault();
+  });
+
+  pageQuiz.addEventListener("dragstart", (event) => {
+    event.preventDefault();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (pageQuiz.hidden) {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+    const isModifierPressed = event.ctrlKey || event.metaKey;
+
+    if (isModifierPressed && (key === "c" || key === "x" || key === "a")) {
+      event.preventDefault();
+    }
+  });
+}
+
+// Construit une cle localStorage unique (QCM + eleve + theme), commune a tous les modes.
+function getThemePoolStorageKey(themeId) {
+  const nom = localStorage.getItem("eleveNom") || "ANONYME";
+  return `qcm-pool:${document.title}:${nom}:theme-${themeId}`;
+}
+
+// Lit le pool restant d'un theme; retombe sur un pool melange si besoin.
+function lirePoolThemeQuestions(themeId, allQuestionIds) {
+  const storageKey = getThemePoolStorageKey(themeId);
+  const raw = localStorage.getItem(storageKey);
+
+  if (!raw) {
+    return melangerTableau(allQuestionIds);
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+
+    if (!Array.isArray(parsed)) {
+      return melangerTableau(allQuestionIds);
+    }
+
+    const idSet = new Set(allQuestionIds);
+    const nettoye = parsed.filter((id) => idSet.has(id));
+
+    if (nettoye.length === 0) {
+      return melangerTableau(allQuestionIds);
+    }
+
+    return nettoye;
+  } catch (error) {
+    console.error(error);
+    return melangerTableau(allQuestionIds);
+  }
+}
+
+// Sauvegarde la liste des questions restantes pour un theme donne.
+function ecrirePoolThemeQuestions(themeId, remainingIds) {
+  const storageKey = getThemePoolStorageKey(themeId);
+  localStorage.setItem(storageKey, JSON.stringify(remainingIds));
+}
+
+// Recupere les questions deja posees pour un eleve depuis tous les modes (revision, evaluation, kahoot).
+// Leve une exception si le serveur est injoignable ou repond en erreur (permet de ne pas vider le pool local).
+async function recupererQuestionsDejaPostees(nom) {
+  const params = new URLSearchParams({
+    action: "questions-deja-posees",
+    nom,
+    ongletRevision: RESULT_SHEET_NAMES.revision,
+    ongletEvaluation: RESULT_SHEET_NAMES.evaluation,
+    ongletKahoot: RESULT_SHEET_NAMES.kahoot
+  });
+
+  const response = await fetch(`${RESULTS_WEB_APP_URL}?${params.toString()}`, {
+    method: "GET",
+    mode: "cors"
+  });
+
+  if (!response.ok) {
+    throw new Error(`Serveur inaccessible (${response.status})`);
+  }
+
+  const data = await response.json();
+
+  if (!data || typeof data !== "object") {
+    throw new Error("Réponse serveur invalide pour l'historique.");
+  }
+
+  if (data.ok === false) {
+    throw new Error(data.error || "Historique incomplet ou refusé par le serveur.");
+  }
+
+  const resultats = extraireTableauResultats(data);
+
+  if (!Array.isArray(resultats)) {
+    throw new Error("Format d'historique invalide reçu du serveur.");
+  }
+
+  return resultats;
+}
+
+// Reconstruit les pools globaux par theme depuis le Sheet (source de verite).
+// Vide d'abord tous les pools de l'eleve, puis reintegre l'historique inter-modes.
+// N'est appele que si le fetch a reussi.
+function restaurerPoolQuestionsEpuisees(questionsData) {
+  const nom = localStorage.getItem("eleveNom") || "ANONYME";
+  const prefixe = `qcm-pool:${document.title}:${nom}:theme-`;
+  const ancienPrefixe = `qcm-pool:${document.title}:`;
+
+  // Vide tous les pools existants de cet eleve
+  const clesASupprimer = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const cle = localStorage.key(i);
+    if (
+      cle && (
+        cle.startsWith(prefixe)
+        || (cle.startsWith(ancienPrefixe) && cle.includes(`:${nom}:theme-`))
+      )
+    ) {
+      clesASupprimer.push(cle);
+    }
+  }
+  clesASupprimer.forEach((cle) => localStorage.removeItem(cle));
+
+  if (!Array.isArray(questionsData) || questionsData.length === 0) {
+    return;
+  }
+
+  // Cree une map id -> question pour retrouver le theme a partir du QID.
+  const questionParId = new Map();
+  for (const question of QUESTION_BANK) {
+    questionParId.set(String(question.id), question);
+  }
+
+  // Groupe les IDs de questions par theme (global tous modes).
+  const epuiseesParTheme = new Map();
+
+  for (const resultat of questionsData) {
+    if (!resultat || typeof resultat !== "object") {
+      continue;
+    }
+
+    // Extrait les QID du resultat
+    const qidsTexte = resultat.qids || resultat.QIDs || resultat.qidList || "";
+
+    if (!qidsTexte) {
+      continue;
+    }
+
+    // Parse les QID (un par ligne)
+    const lignes = qidsTexte.split("\n").map((l) => l.trim()).filter((l) => l);
+
+    for (const qid of lignes) {
+      const question = questionParId.get(qid);
+
+      if (!question) {
+        continue;
+      }
+
+      const cleTheme = String(question.themeId);
+
+      if (!epuiseesParTheme.has(cleTheme)) {
+        epuiseesParTheme.set(cleTheme, []);
+      }
+
+      const ids = epuiseesParTheme.get(cleTheme);
+
+      if (!ids.includes(question.id)) {
+        ids.push(question.id);
+      }
+    }
+  }
+
+  // Reconstruit les pools en retirant les questions deja posees du Sheet
+  for (const [themeIdStr, questionIds] of epuiseesParTheme) {
+    const themeId = Number(themeIdStr);
+
+    if (!Number.isInteger(themeId)) {
+      continue;
+    }
+
+    const storageKey = `qcm-pool:${document.title}:${nom}:theme-${themeId}`;
+
+    // Initialise depuis toutes les questions du theme, retire les deja posees
+    const allThemeIds = QUESTION_BANK
+      .filter((q) => q.themeId === themeId)
+      .map((q) => q.id);
+    const remainingIds = melangerTableau([...allThemeIds])
+      .filter((id) => !questionIds.includes(id));
+
+    localStorage.setItem(storageKey, JSON.stringify(remainingIds));
+  }
+}
+
+// Tire une seule question dans un theme en respectant l'epuisement.
+function tirerUneQuestionParTheme(themeId, themeQuestions) {
+  const questionById = new Map(themeQuestions.map((q) => [q.id, q]));
+  const allQuestionIds = themeQuestions.map((q) => q.id);
+  let remainingIds = lirePoolThemeQuestions(themeId, allQuestionIds);
+
+  if (remainingIds.length === 0) {
+    remainingIds = melangerTableau(allQuestionIds);
+  }
+
+  const nextId = remainingIds.shift();
+  ecrirePoolThemeQuestions(themeId, remainingIds);
+  return questionById.get(nextId);
+}
+
+// Construit le quiz: 1 question par theme puis melange final.
+function creerSelectionQuestions() {
+  if (QUESTION_BANK.length === 0) {
+    throw new Error("Base de questions vide.");
+  }
+
+  if (TOTAL_QUESTIONS !== THEMES.length) {
+    throw new Error(`Configuration invalide: totalQuestions=${TOTAL_QUESTIONS}, themes=${THEMES.length}.`);
+  }
+
+  const selection = [];
+
+  for (const theme of THEMES) {
+    const questionsDuTheme = QUESTION_BANK.filter((q) => q.themeId === theme.id);
+
+    if (questionsDuTheme.length === 0) {
+      throw new Error(`Aucune question affectée au thème ${theme.id}.`);
+    }
+
+    const question = tirerUneQuestionParTheme(theme.id, questionsDuTheme);
+
+    if (!question) {
+      throw new Error(`Impossible de tirer une question pour le thème ${theme.id}.`);
+    }
+
+    selection.push(question);
+  }
+
+  return melangerTableau(selection);
+}
+
+// Reinitialise les choix de reponse avant d'afficher la question suivante.
+function reinitialiserReponse() {
+  answerTrue.checked = false;
+  answerFalse.checked = false;
+  answerUnknown.checked = true;
+  quizError.textContent = "";
+  quizError.className = "quiz-error";
+}
+
+// Active/desactive les boutons radio de reponse.
+function setAnswerInputsDisabled(disabled) {
+  answerTrue.disabled = disabled;
+  answerFalse.disabled = disabled;
+  answerUnknown.disabled = disabled;
+}
+
+// Met a jour l'interface avec la question courante et la progression.
+function afficherQuestionCourante() {
+  const current = quizState.questions[quizState.index];
+  const numero = quizState.index + 1;
+  const estDerniereQuestion = numero === quizState.questions.length;
+  quizState.questionResolved = false;
+  arreterFeedbackKahoot();
+
+  quizProgress.textContent = `Question ${numero}/${quizState.questions.length}`;
+  quizQuestion.textContent = current.text;
+  if (current.image) {
+    quizImage.src = current.image;
+    quizImage.hidden = false;
+  } else {
+    quizImage.src = "";
+    quizImage.hidden = true;
+  }
+  nextQuestionBtn.textContent = estDerniereQuestion ? "Valider et terminer" : "Valider et continuer";
+  nextQuestionBtn.disabled = false;
+  setAnswerInputsDisabled(false);
+  reinitialiserReponse();
+  demarrerTimerQuestion();
+}
+
+// Initialise un nouveau quiz pour le mode revision ou evaluation.
+function demarrerQuiz(mode) {
+  try {
+    quizState = {
+      mode,
+      questions: creerSelectionQuestions(),
+      index: 0,
+      score: 0,
+      reponsesDetaillees: [],
+      startedAtMs: Date.now(),
+      finishedAtMs: 0,
+      resultSendAttempted: false,
+      questionTimerId: null,
+      questionDeadlineMs: 0,
+      questionResolved: false,
+      feedbackTimeoutId: null
+    };
+
+    if (mode === "revision") {
+      quizModeLabel.textContent = `Mode Révision - ${document.title}`;
+    } else if (mode === "evaluation") {
+      quizModeLabel.textContent = `Mode Évaluation - ${document.title}`;
+    } else {
+      quizModeLabel.textContent = `Mode TurboQuiz - ${document.title}`;
+    }
+
+    afficherPage("quiz");
+    afficherQuestionCourante();
+  } catch (error) {
+    setEligibilityMessage("Impossible de lancer le quiz: base de questions insuffisante.", "err");
+    console.error(error);
+  }
+}
+
+// Termine la session, affiche le score puis lance l'envoi du resultat.
+function terminerQuiz() {
+  let modeLabel = "Évaluation";
+
+  if (quizState.mode === "revision") {
+    modeLabel = "Révision";
+  } else if (quizState.mode === "kahoot") {
+    modeLabel = "TurboQuiz";
+  }
+
+  arreterTimerQuestion();
+  arreterFeedbackKahoot();
+  afficherTimerQuestion(0);
+  quizState.finishedAtMs = Date.now();
+  const dureeSecondes = Math.max(0, Math.round((quizState.finishedAtMs - quizState.startedAtMs) / 1000));
+  const dureeTexte = formaterDuree(dureeSecondes);
+
+  resultMode.textContent = `Mode: ${modeLabel}`;
+  resultScore.textContent = quizState.mode === "kahoot"
+    ? `${quizState.score} points`
+    : `${quizState.score} / ${quizState.questions.length}`;
+  resultDetails.textContent = `Temps de réalisation : ${dureeTexte}`;
+
+  if (kahootBoard) {
+    kahootBoard.hidden = true;
+    kahootBoard.innerHTML = "";
+  }
+
+  restartQuizBtn.disabled = true;
+  setResultSendStatus("Envoi du résultat en cours...", "");
+  afficherPage("resultat");
+  envoyerResultatQuiz();
+}
+
+// Affiche l'etat d'envoi du resultat (en cours, succes, echec).
+function setResultSendStatus(texte, type) {
+  resultSendStatus.textContent = texte;
+  resultSendStatus.className = `result-send-status ${type}`.trim();
+}
+
+// Convertit une valeur booleenne/unknown en libelle lisible.
+function libelleReponse(value) {
+  if (value === true) {
+    return "VRAI";
+  }
+
+  if (value === false) {
+    return "FAUX";
+  }
+
+  return "JE NE SAIS PAS";
+}
+
+async function verifierReponseServeur(questionId, reponseEleve) {
+  const source = SETTINGS.questionsSource || {};
+
+  if (!source.enabled || !source.url) {
+    throw new Error("Source de verification des reponses indisponible.");
+  }
+
+  const url = new URL(source.url, window.location.href);
+  url.searchParams.set("action", "verifier-reponse");
+  url.searchParams.set("qcm", document.title);
+  url.searchParams.set("questionId", String(questionId));
+  url.searchParams.set("answer", reponseEleve === "unknown" ? "unknown" : String(reponseEleve));
+
+  const response = await fetch(url.toString(), {
+    method: "GET",
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error(`Verification serveur impossible (${response.status}).`);
+  }
+
+  const data = await response.json();
+
+  if (!data || data.error === true) {
+    throw new Error(data && data.message ? data.message : "Le serveur n'a pas pu verifier la reponse.");
+  }
+
+  if (typeof data.isCorrect !== "boolean") {
+    throw new Error("Le serveur n'a pas renvoye un statut de verification exploitable.");
+  }
+
+  return data.isCorrect;
+}
+
+// Formate la reponse eleve avec indicateur de justesse.
+function libelleReponseEleveAvecStatut(reponseEleve, isCorrect) {
+  if (reponseEleve === "unknown") {
+    return libelleReponse(reponseEleve);
+  }
+
+  return `${libelleReponse(reponseEleve)} ${isCorrect ? "✔️" : "❌"}`;
+}
+
+// Formate la date au format jour/mois/annee heure:minute:seconde.
+function formaterDateResultat(date) {
+  const pad = (n) => String(n).padStart(2, "0");
+  const jour = pad(date.getDate());
+  const mois = pad(date.getMonth() + 1);
+  const annee = date.getFullYear();
+  const heures = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const secondes = pad(date.getSeconds());
+
+  return `${jour}/${mois}/${annee} ${heures}:${minutes}:${secondes}`;
+}
+
+// Formate une duree en secondes vers un texte lisible.
+function formaterDuree(secondes) {
+  const total = Math.max(0, Number(secondes) || 0);
+  const minutes = Math.floor(total / 60);
+  const resteSecondes = total % 60;
+  return `${minutes} min ${resteSecondes} s`;
+}
+
+// Echappe un texte pour un rendu HTML sur sans injection.
+function echapperHtml(texte) {
+  return String(texte)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// Cle localStorage du classement Kahoot pour ce QCM.
+function getKahootBoardStorageKey() {
+  return `qcm-kahoot-board:${document.title}`;
+}
+
+// Extrait un tableau de resultats depuis plusieurs formats JSON possibles.
+function extraireTableauResultats(data) {
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  if (!data || typeof data !== "object") {
+    return [];
+  }
+
+  const candidates = [
+    data.results,
+    data.resultats,
+    data.rows,
+    data.data,
+    data.items,
+    data.values
+  ];
+
+  for (const candidate of candidates) {
+    if (Array.isArray(candidate)) {
+      return candidate;
+    }
+  }
+
+  return [];
+}
+
+// Parse une valeur numerique potentielle (nombre ou texte) en score exploitable.
+function parseNombreFlexible(value) {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const match = value.match(/-?\d+(?:[\.,]\d+)?/);
+
+  if (!match) {
+    return null;
+  }
+
+  const parsed = Number(match[0].replace(",", "."));
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+// Extrait un nom candidat depuis les cles les plus frequentes.
+function extraireNomResultat(item) {
+  const nomsPossibles = [
+    item.nom,
+    item.name,
+    item.candidat,
+    item.candidate,
+    item.eleve
+  ];
+
+  for (const nom of nomsPossibles) {
+    if (typeof nom === "string" && nom.trim()) {
+      return nom.trim();
+    }
+  }
+
+  return "";
+}
+
+// Extrait un score numerique depuis plusieurs colonnes eventuelles.
+function extraireScoreResultat(item) {
+  const scoresPossibles = [
+    item.note,
+    item.scoreNumerique,
+    item.points,
+    item.totalPoints,
+    item.score,
+    item.resultat
+  ];
+
+  for (const score of scoresPossibles) {
+    const parsed = parseNombreFlexible(score);
+
+    if (parsed !== null) {
+      return parsed;
+    }
+  }
+
+  return null;
+}
+
+// Extrait une duree en secondes si disponible (sinon 0).
+function extraireDureeResultat(item) {
+  const dureesPossibles = [item.dureeSecondes, item.duree, item.durationSeconds];
+
+  for (const duree of dureesPossibles) {
+    const parsed = parseNombreFlexible(duree);
+
+    if (parsed !== null) {
+      return Math.max(0, parsed);
+    }
+  }
+
+  return 0;
+}
+
+// Dedoublonne par nom (meilleur score) puis trie pour produire un top 10.
+function construireClassementTurboQuiz(resultatsBruts) {
+  const meilleursParNom = new Map();
+
+  for (const item of resultatsBruts) {
+    if (!item || typeof item !== "object") {
+      continue;
+    }
+
+    const nom = extraireNomResultat(item);
+    const score = extraireScoreResultat(item);
+
+    if (!nom || score === null) {
+      continue;
+    }
+
+    const cle = normaliserNom(nom);
+    const courant = meilleursParNom.get(cle);
+    const candidat = {
+      nom,
+      score,
+      dureeSecondes: extraireDureeResultat(item),
+      dateIso: item.dateIso || item.date || item.timestamp || ""
+    };
+
+    if (!courant) {
+      meilleursParNom.set(cle, candidat);
+      continue;
+    }
+
+    const scoreMeilleur = candidat.score > courant.score;
+    const tieBreakDuree = candidat.score === courant.score && candidat.dureeSecondes < courant.dureeSecondes;
+
+    if (scoreMeilleur || tieBreakDuree) {
+      meilleursParNom.set(cle, candidat);
+    }
+  }
+
+  return [...meilleursParNom.values()]
+    .sort((a, b) => {
+      if (b.score !== a.score) {
+        return b.score - a.score;
+      }
+
+      if (a.dureeSecondes !== b.dureeSecondes) {
+        return a.dureeSecondes - b.dureeSecondes;
+      }
+
+      return String(b.dateIso || "").localeCompare(String(a.dateIso || ""));
+    })
+    .slice(0, 10);
+}
+
+// Lit les resultats TurboQuiz depuis le backend, avec fallback sur plusieurs actions.
+async function recupererClassementTurboQuizDepuisSheet() {
+  const params = new URLSearchParams({
+    action: "classement-turboquiz",
+    mode: "kahoot",
+    ongletResultats: RESULT_SHEET_NAMES.kahoot,
+    ongletResultatsCible: RESULT_SHEET_NAMES.kahoot,
+    ongletTurboQuizResultats: RESULT_SHEET_NAMES.kahoot,
+    limite: "200"
+  });
+
+  const response = await fetch(`${RESULTS_WEB_APP_URL}?${params.toString()}`, {
+    method: "GET",
+    mode: "cors"
+  });
+
+  if (!response.ok) {
+    throw new Error(`Reponse serveur invalide (${response.status})`);
+  }
+
+  const data = await response.json();
+  return extraireTableauResultats(data);
+}
+
+// Lit le classement Kahoot persistant (top local par navigateur).
+function lireClassementKahoot() {
+  const raw = localStorage.getItem(getKahootBoardStorageKey());
+
+  if (!raw) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed
+      .filter((item) => item && typeof item.nom === "string")
+      .map((item) => ({
+        nom: item.nom,
+        score: Number(item.score) || 0,
+        dureeSecondes: Number(item.dureeSecondes) || 0,
+        dateIso: item.dateIso || ""
+      }));
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+// Ajoute un score et garde un top 10 trie score desc puis duree asc.
+function enregistrerScoreKahoot(nom, score, dureeSecondes) {
+  const classement = lireClassementKahoot();
+
+  classement.push({
+    nom,
+    score,
+    dureeSecondes,
+    dateIso: new Date().toISOString()
+  });
+
+  classement.sort((a, b) => {
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+
+    if (a.dureeSecondes !== b.dureeSecondes) {
+      return a.dureeSecondes - b.dureeSecondes;
+    }
+
+    return (b.dateIso || "").localeCompare(a.dateIso || "");
+  });
+
+  const top10 = classement.slice(0, 10);
+  localStorage.setItem(getKahootBoardStorageKey(), JSON.stringify(top10));
+  return top10;
+}
+
+// Rend le podium local Kahoot sur l'ecran resultat.
+function afficherClassementKahoot(classement, nom, score, dureeSecondes, sourceLabel = "top 10 local") {
+  if (!kahootBoard) {
+    return;
+  }
+
+  const lignes = classement
+    .slice(0, 10)
+    .map((item) => `<li>${echapperHtml(item.nom)} - ${item.score} pts (${formaterDuree(item.dureeSecondes)})</li>`)
+    .join("");
+
+  kahootBoard.innerHTML = `
+    <h3>Classement TurboQuiz</h3>
+    <p>Votre score: <strong>${score} points</strong> en ${formaterDuree(dureeSecondes)}.</p>
+    <p>Participant: <strong>${echapperHtml(nom)}</strong></p>
+    <ol>${lignes}</ol>
+  `;
+
+  kahootBoard.hidden = false;
+}
+
+// Envoie le resultat au backend sans second envoi automatique pour eviter les doublons.
+async function envoyerResultatQuiz() {
+  if (quizState.resultSendAttempted) {
+    return;
+  }
+
+  quizState.resultSendAttempted = true;
+
+  const nom = localStorage.getItem("eleveNom") || "";
+  const mode = quizState.mode;
+  const score = quizState.score;
+  const bareme = quizState.questions.length;
+  const dureeSecondes = Math.max(0, Math.round((quizState.finishedAtMs - quizState.startedAtMs) / 1000));
+  const dureeTexte = formaterDuree(dureeSecondes);
+  const dateIso = formaterDateResultat(new Date());
+  const details = quizState.reponsesDetaillees;
+  
+  // Verifier si on est en mode hors ligne
+  const offlineMode = localStorage.getItem("offlineMode") === "true";
+  if (offlineMode) {
+    setResultSendStatus("⚠️ Mode hors ligne: résultat non envoyé au serveur", "");
+    restartQuizBtn.disabled = false;
+    return;
+  }
+  
+  const qids = details.map((item) => String(item.questionId || "")).filter((id) => id).join("\n");
+  const questions = details.map((item) => item.question).join("\n");
+  const reponsesEleve = details.map((item) => item.reponseEleve).join("\n");
+  const ongletResultats = mode === "revision"
+    ? RESULT_SHEET_NAMES.revision
+    : mode === "evaluation"
+      ? RESULT_SHEET_NAMES.evaluation
+      : RESULT_SHEET_NAMES.kahoot;
+
+  const params = new URLSearchParams({
+    action: "enregistrer-resultat",
+    nom,
+    mode,
+    score: `${score}/${bareme}`,
+    note: String(score),
+    dureeSecondes: String(dureeSecondes),
+    dureeTexte,
+    dateIso,
+    nombreQuestions: String(bareme),
+    qids,
+    questions,
+    bonnesReponses: "",
+    reponsesEleve,
+    ongletResultats,
+    ongletResultatsCible: ongletResultats,
+    ongletRevisionResultats: RESULT_SHEET_NAMES.revision,
+    ongletEvaluationResultats: RESULT_SHEET_NAMES.evaluation,
+    ongletTurboQuizResultats: RESULT_SHEET_NAMES.kahoot
+  });
+
+  // Envoi detaille indexe pour compatibilite avec les scripts qui attendent Q1..Qn.
+  for (let i = 0; i < bareme; i++) {
+    const detail = details[i] || {};
+    const index = String(i + 1);
+    params.append(`QID${index}`, String(detail.questionId || ""));
+    params.append(`Q${index}`, detail.question || "");
+    params.append(`BR${index}`, "");
+    params.append(`RE${index}`, detail.reponseEleve || "");
+  }
+
+  try {
+    const response = await fetch(RESULTS_WEB_APP_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: params.toString()
+    });
+
+    if (!response.ok) {
+      throw new Error("Reponse serveur invalide pour l'enregistrement");
+    }
+
+    if (mode === "kahoot") {
+      const nomAffiche = localStorage.getItem("eleveNomAffiche") || localStorage.getItem("eleveNom") || "Participant";
+      setResultSendStatus("Résultat envoyé. Chargement du classement TurboQuiz...", "");
+
+      try {
+        const resultatsSheet = await recupererClassementTurboQuizDepuisSheet();
+        const classementSheet = construireClassementTurboQuiz(resultatsSheet);
+
+        if (classementSheet.length > 0) {
+          afficherClassementKahoot(classementSheet, nomAffiche, score, dureeSecondes, "top 10 sheet");
+          setResultSendStatus("Résultat envoyé et classement TurboQuiz mis à jour.", "ok");
+          restartQuizBtn.disabled = false;
+          return;
+        }
+
+        const classementLocal = enregistrerScoreKahoot(nomAffiche, score, dureeSecondes);
+        afficherClassementKahoot(classementLocal, nomAffiche, score, dureeSecondes, "top 10 local");
+        setResultSendStatus("Résultat envoyé. Classement sheet vide pour le moment, affichage local appliqué.", "ok");
+        restartQuizBtn.disabled = false;
+        return;
+      } catch (classementError) {
+        console.error(classementError);
+        const classementLocal = enregistrerScoreKahoot(nomAffiche, score, dureeSecondes);
+        afficherClassementKahoot(classementLocal, nomAffiche, score, dureeSecondes, "top 10 local");
+        setResultSendStatus("Résultat envoyé. Classement sheet indisponible, affichage local en secours.", "err");
+        restartQuizBtn.disabled = false;
+        return;
+      }
+    }
+
+    restartQuizBtn.disabled = false;
+    setResultSendStatus("Résultat envoyé avec succès.", "ok");
+    return;
+  } catch (error) {
+    restartQuizBtn.disabled = false;
+    setResultSendStatus("Confirmation impossible. Le résultat a peut-être déjà été enregistré. Aucun renvoi automatique n'est fait pour éviter les doublons.", "err");
+    console.error(error);
+  }
+}
+
+// Lit le choix courant de l'eleve (true, false, unknown ou null).
+function lireReponseSelectionnee() {
+  if (answerTrue.checked) {
+    return true;
+  }
+
+  if (answerFalse.checked) {
+    return false;
+  }
+
+  if (answerUnknown.checked) {
+    return "unknown";
+  }
+
+  return null;
+}
+
+// Valide la reponse, calcule le score et passe a la suite.
+async function validerQuestion(forcerInconnu = false) {
+  if (quizState.questionResolved) {
+    return;
+  }
+
+  let reponse = lireReponseSelectionnee();
+
+  if (reponse === null) {
+    if (forcerInconnu) {
+      reponse = "unknown";
+    } else {
+      quizError.textContent = "Vous devez choisir VRAI, FAUX ou Je ne sais pas avant de continuer.";
+      return;
+    }
+  }
+
+  quizState.questionResolved = true;
+  arreterTimerQuestion();
+  nextQuestionBtn.disabled = true;
+  setAnswerInputsDisabled(true);
+
+  const current = quizState.questions[quizState.index];
+  let isCorrect = false;
+
+  try {
+    if (reponse !== "unknown") {
+      quizError.textContent = "Verification de la reponse en cours...";
+      isCorrect = await verifierReponseServeur(current.id, reponse);
+    } else {
+      quizError.textContent = "";
+    }
+  } catch (error) {
+    quizState.questionResolved = false;
+    nextQuestionBtn.disabled = false;
+    setAnswerInputsDisabled(false);
+    quizError.textContent = error && error.message
+      ? `Impossible de verifier la reponse : ${error.message}`
+      : "Impossible de verifier la reponse pour le moment.";
+    demarrerTimerQuestion();
+    return;
+  }
+
+  quizState.reponsesDetaillees.push({
+    questionId: current.id,
+    question: current.text,
+    reponseEleve: libelleReponseEleveAvecStatut(reponse, isCorrect)
+  });
+
+  let pointsQuestion = 0;
+
+  if (quizState.mode === "kahoot") {
+    const msTotauxQuestion = KAHOOT_TIMER_SECONDS * 1000;
+    const msRestants = Math.max(0, quizState.questionDeadlineMs - Date.now());
+    const ratioTempsRestant = Math.min(1, msRestants / msTotauxQuestion);
+    const pointsTemps = Math.round(1000 * ratioTempsRestant);
+
+    if (reponse === "unknown") {
+      pointsQuestion = 0;
+    } else if (isCorrect) {
+      pointsQuestion = pointsTemps;
+    } else {
+      pointsQuestion = -500;
+    }
+  } else if (reponse === "unknown") {
+    pointsQuestion = 0;
+  } else if (isCorrect) {
+    pointsQuestion = 1;
+  } else {
+    pointsQuestion = -1;
+  }
+
+  quizState.score += pointsQuestion;
+
+  const prochaineQuestionIndex = quizState.index + 1;
+
+  if (prochaineQuestionIndex >= quizState.questions.length) {
+    quizState.index = prochaineQuestionIndex;
+    terminerQuiz();
+    return;
+  }
+
+  if (quizState.mode === "kahoot") {
+    quizError.textContent = "";
+    quizError.className = "quiz-error";
+    quizState.index = prochaineQuestionIndex;
+    afficherQuestionCourante();
+    return;
+  }
+
+  quizState.index = prochaineQuestionIndex;
+  afficherQuestionCourante();
+}
+
+// Revient a l'accueil sans perdre l'etape de bienvenue.
+function quitterQuiz() {
+  arreterTimerQuestion();
+  arreterFeedbackKahoot();
+  afficherTimerQuestion(0);
+  setAnswerInputsDisabled(false);
+  nextQuestionBtn.disabled = false;
+  afficherPage("accueil");
+  welcomeStep.hidden = false;
+  evaluationClickLock = false;
+  evalBtn.disabled = false;
+
+  if (kahootBoard) {
+    kahootBoard.hidden = true;
+    kahootBoard.innerHTML = "";
+  }
+
+  if (evaluationAuthorized) {
+    setEligibilityMessage("Vous pouvez commencer l'évaluation en cliquant sur le bouton Évaluation.", "ok");
+    return;
+  }
+
+  setEligibilityMessage("La vérification de l'accès à l'évaluation se fait au clic sur le bouton Évaluation.", "");
+}
+
+// Recupere la premiere valeur numerique valide parmi plusieurs cles.
+function lireNombre(data, keys) {
+  for (const key of keys) {
+    const value = data[key];
+
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return value;
+    }
+  }
+
+  return 0;
+}
+
+// Normalise la reponse backend vers un format simple d'eligibilite.
+function extraireEligibilite(data) {
+  const isEligible = data.eligible === true || data.authorizedForEvaluation === true;
+  const successCount = lireNombre(data, [
+    "successfulRevisionCount",
+    "eligibleRevisionCount",
+    "revisionCount",
+    "count"
+  ]);
+
+  return { isEligible, successCount };
+}
+
+// Interroge le backend pour savoir si l'evaluation est accessible.
+async function verifierEligibiliteEvaluation(nom) {
+  const params = new URLSearchParams({
+    action: "eligibilite-evaluation",
+    nom,
+    seuilReussites: String(REQUIRED_REVISION_SUCCESS),
+    seuilNote: String(MIN_REVISION_SCORE),
+    bareme: String(TOTAL_QUESTIONS),
+    sourceEligibilite: "revision",
+    ongletRevision: RESULT_SHEET_NAMES.revision,
+    ongletRevisionResultats: RESULT_SHEET_NAMES.revision,
+    ongletAutorisations: SETTINGS.appScript.authorizationsSheetName
+  });
+  const response = await fetch(`${RESULTS_WEB_APP_URL}?${params.toString()}`, { method: "GET", mode: "cors" });
+
+  if (!response.ok) {
+    throw new Error("Reponse serveur invalide pour l'evaluation");
+  }
+
+  const data = await response.json();
+  return extraireEligibilite(data || {});
+}
+
+// Affiche l'ecran d'accueil personnalise apres autorisation validee.
+async function afficherBienvenue(nomAffiche, nomNormalise, offlineMode = false) {
+  if (offlineMode) {
+    // Mode hors ligne: pas de fetch d'historique
+    setMessage("⚠️ Mode hors ligne - Pas de synchronisation serveur", "");
+    localStorage.setItem("eleveNom", nomNormalise);
+    localStorage.setItem("eleveNomAffiche", nomAffiche);
+    localStorage.setItem("offlineMode", "true");
+    restaurerPoolQuestionsEpuisees([]);
+    
+    accessStep.hidden = true;
+    welcomeStep.hidden = false;
+    welcomeMessage.textContent = `Bienvenue ${nomAffiche} (Mode hors ligne)`;
+    setMessage("⚠️ Mode hors ligne - Travail local uniquement", "");
+    setEvaluationEnabled(true);
+    setEligibilityMessage("Mode hors ligne: historique non synchronisé", "");
+    return;
+  }
+
+  setMessage("Récupération de votre historique...", "");
+
+  // Recupere l'historique AVANT d'ecrire quoi que ce soit dans le localStorage.
+  // Si le fetch echoue, la connexion est refusee sans laisser de traces.
+  let questionsDejaPostees;
+  try {
+    questionsDejaPostees = await recupererQuestionsDejaPostees(nomNormalise);
+  } catch (error) {
+    console.error("Historique non recupere, connexion refusee.", error);
+    const detailErreur = error && error.message ? error.message : "Erreur inconnue.";
+    setMessage(`Impossible de récupérer votre historique : ${detailErreur}`, "err");
+    return;
+  }
+
+  try {
+    if (questionsChargeesPourQcm !== document.title) {
+      await initialiserBaseQuestions();
+    }
+  } catch (error) {
+    console.error("Base de questions non chargee, connexion interrompue.", error);
+    const detailErreur = error && error.message ? error.message : "Erreur inconnue.";
+    setMessage(`Impossible de charger la base de questions : ${detailErreur}`, "err");
+    return;
+  }
+
+  const configurationErrors = validerConfigurationQcm();
+  if (configurationErrors.length > 0) {
+    bloquerInterfacePourConfigurationInvalide(configurationErrors);
+    return;
+  }
+
+  // Fetch reussi: on valide la session et on reconstruit les pools.
+  localStorage.setItem("eleveNom", nomNormalise);
+  localStorage.setItem("eleveNomAffiche", nomAffiche);
+  localStorage.removeItem("offlineMode");
+  restaurerPoolQuestionsEpuisees(questionsDejaPostees);
+
+  accessStep.hidden = true;
+  welcomeStep.hidden = false;
+  welcomeMessage.textContent = `Bienvenue ${nomAffiche}`;
+  setMessage("", "");
+  setEvaluationEnabled(true);
+  setEligibilityMessage("La vérification de l'accès à l'évaluation se fait au clic sur le bouton Évaluation.", "");
+}
+
+// Controle l'eligibilite au moment du clic sur le bouton Evaluation.
+async function verifierEvaluationAuClic() {
+  if (evaluationCheckInProgress) {
+    return;
+  }
+
+  evaluationCheckInProgress = true;
+  const nomNormalise = localStorage.getItem("eleveNom") || normaliserNom(inputNom.value || "");
+
+  if (!nomNormalise) {
+    setEligibilityMessage("Veuillez d'abord saisir votre nom pour accéder au quiz.", "err");
+    return;
+  }
+
+  evalBtn.disabled = true;
+  setEligibilityMessage("Vérification de l'accès au QCM d'évaluation en cours...", "");
+
+  try {
+    const eligibility = await verifierEligibiliteEvaluation(nomNormalise);
+
+    if (!eligibility.isEligible) {
+      evaluationAuthorized = false;
+      setEligibilityMessage(
+        `Le QCM d'évaluation sera disponible après ${REQUIRED_REVISION_SUCCESS} révisions réussies avec au moins ${MIN_REVISION_SCORE}/${TOTAL_QUESTIONS}. Résultat actuel : ${eligibility.successCount}/${REQUIRED_REVISION_SUCCESS}.`,
+        "err"
+      );
+      return;
+    }
+
+    setEligibilityMessage("Vous pouvez commencer l'évaluation en cliquant sur le bouton Évaluation.", "ok");
+    evaluationAuthorized = true;
+  } catch (error) {
+    setEligibilityMessage("Impossible de vérifier l'accès au QCM d'évaluation pour le moment.", "err");
+    console.error(error);
+  } finally {
+    evaluationCheckInProgress = false;
+    evalBtn.disabled = false;
+  }
+}
+
+// Verifie dans la source autorisations si le nom est autorise.
+// Fallback hors ligne: accepte "administrateur" si pas de connexion.
+async function verifierNomAutorise(nom) {
+  const params = new URLSearchParams({
+    action: "verifier-autorisation",
+    nom,
+    ongletAutorisations: SETTINGS.appScript.authorizationsSheetName
+  });
+  const url = `${AUTH_WEB_APP_URL}?${params.toString()}`;
+  
+  try {
+    const response = await fetch(url, { method: "GET", mode: "cors" });
+
+    if (!response.ok) {
+      throw new Error("Reponse serveur invalide");
+    }
+
+    const data = await response.json();
+    return { authorized: data && data.authorized === true, offlineMode: false };
+  } catch (error) {
+    // Fallback hors ligne: accepte "administrateur"
+    const isAdmin = normaliserNom(nom) === "ADMINISTRATEUR";
+    if (isAdmin) {
+      console.warn("Mode hors ligne: accès administrateur accepté sans connexion.");
+      return { authorized: true, offlineMode: true };
+    }
+    // Autres utilisateurs bloqués hors ligne
+    throw error;
+  }
+}
+
+// Orchestration du controle d'acces depuis le formulaire d'accueil.
+async function controlerAcces() {
+  if (connexionEnCours) {
+    return;
+  }
+
+  const nomAffiche = inputNom.value.replace(/\s+/g, " ").trim();
+  const nomSaisi = normaliserNom(nomAffiche);
+
+  if (!nomSaisi) {
+    setMessage("Veuillez saisir votre nom.", "err");
+    inputNom.focus();
+    return;
+  }
+
+  connexionEnCours = true;
+  setButtonsDisabled(true);
+  setMessage("Vérification en cours...", "");
+
+  try {
+    const result = await verifierNomAutorise(nomSaisi);
+
+    if (!result.authorized) {
+      setMessage("Accès refusé", "err");
+      return;
+    }
+
+    evaluationAuthorized = false;
+    evaluationClickLock = false;
+    evaluationCheckInProgress = false;
+    await afficherBienvenue(nomAffiche, nomSaisi, result.offlineMode);
+  } catch (error) {
+    setMessage("Erreur de vérification. Réessayez.", "err");
+    console.error(error);
+  } finally {
+    connexionEnCours = false;
+    setButtonsDisabled(false);
+  }
+}
+
+// Memorise le mode choisi puis ouvre le QCM correspondant.
+function ouvrirQcm(mode) {
+  if (!applicationReady) {
+    setMessage("Le QCM n'est pas encore pret. Merci de patienter.", "err");
+    return;
+  }
+
+  localStorage.setItem("modeSelectionne", mode);
+  demarrerQuiz(mode);
+}
+
+async function initialiserApplication() {
+  applicationReady = false;
+  questionsChargeesPourQcm = "";
+  inputNom.disabled = true;
+  setButtonsDisabled(true);
+  setEvaluationEnabled(false);
+
+  try {
+    const configurationErrors = validerConfigurationQcm();
+
+    if (configurationErrors.length > 0) {
+      bloquerInterfacePourConfigurationInvalide(configurationErrors);
+      return;
+    }
+
+    inputNom.disabled = false;
+    setButtonsDisabled(false);
+    setEvaluationEnabled(false);
+    setMessage("", "");
+    setEligibilityMessage("", "");
+    applicationReady = true;
+  } catch (error) {
+    console.error("Initialisation impossible du QCM.", error);
+    const detailErreur = error && error.message ? error.message : "Erreur inconnue.";
+    inputNom.disabled = true;
+    setButtonsDisabled(true);
+    setEvaluationEnabled(false);
+    setMessage(`Chargement impossible de la base de questions: ${detailErreur}`, "err");
+    setEligibilityMessage("Verifiez la source Google Sheet ou le fichier d'export configure.", "err");
+  }
+}
+
+accessForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  controlerAcces();
+});
+
+trainingBtn.addEventListener("click", () => {
+  ouvrirQcm("revision");
+});
+
+evalBtn.addEventListener("click", () => {
+  if (evaluationCheckInProgress || evaluationClickLock) {
+    return;
+  }
+
+  if (evaluationAuthorized) {
+    evaluationClickLock = true;
+    ouvrirQcm("evaluation");
+  } else {
+    verifierEvaluationAuClic();
+  }
+});
+
+kahootBtn.addEventListener("click", () => {
+  ouvrirQcm("kahoot");
+});
+
+quizForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  validerQuestion();
+});
+
+quitQuizBtn.addEventListener("click", () => {
+  quitterQuiz();
+});
+
+restartQuizBtn.addEventListener("click", () => {
+  quitterQuiz();
+});
+
+activerProtectionContenuQuiz();
+initialiserApplication();
+</script>
+
+</body>
+</html>
